@@ -27,11 +27,13 @@ node -v
 2. Через node.js command line или терминал переходим в эту папку
 3. Запускаем
 
+```bash
+npm install
+npm run dev
+```
+Переходим на http://localhost:3000 и должны видеть стартовую страницу.
 
-
-
-
-
+Если все ок - приступаем.
 
 ## Создаем новый контейнер
 
@@ -42,7 +44,7 @@ node -v
 cd ./src/containers && mkdir ./SocketExample
 ```
 
-### Копируем туда hello.js как шаблон странички
+## Копируем туда hello.js как шаблон странички
 
 ```bash
 cp About/About.js Hello/SocketExamplePage.js
@@ -68,9 +70,10 @@ export default class SocketExamplePage extends Component {
       </div>
     );
   }
-}```
+}
+```
 
-### Подключаем
+### Подключаем созданную страницу
 
 Добавляем в `./src/containers/index.js` новый компонент React
 
@@ -78,7 +81,7 @@ export default class SocketExamplePage extends Component {
 export SocketExamplePage from './SocketExample/SocketExamplePage';
 ```
 
-Добавляем в `./routes.js`, чтобы связать переход по пунти `/socketexamplepage` в карту ссылок
+Добавляем в `./src/routes.js`, чтобы связать переход по пунти `/socketexamplepage` в карту ссылок
 
 ```js
 ...
