@@ -119,6 +119,8 @@ import {
 npm run dev
 ```
 
+Коммит [https://github.com/valentinmk/react-redux-universal-hot-example/commit/69935996671fc5dd64062143526d1a00b49afcbd](https://github.com/valentinmk/react-redux-universal-hot-example/commit/69935996671fc5dd64062143526d1a00b49afcbd)
+
 На данный момент мы имеем:
 
 * Раздел веб приложения
