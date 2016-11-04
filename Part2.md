@@ -91,7 +91,7 @@
 
 Проверяем и закомитимся для получения полного кода.
 
-Коммит [https://github.com/valentinmk/react-redux-universal-hot-example/commit/69935996671fc5dd64062143526d1a00b49afcbd](https://github.com/valentinmk/react-redux-universal-hot-example/commit/69935996671fc5dd64062143526d1a00b49afcbd)
+Коммит [https://github.com/valentinmk/react-redux-universal-hot-example/commit/510a59f732a9bf42e070e7f57e970a2307661739](https://github.com/valentinmk/react-redux-universal-hot-example/commit/510a59f732a9bf42e070e7f57e970a2307661739)
 
 
 ### Пользовательский интерфейс Вариант 2. Компоненты.
