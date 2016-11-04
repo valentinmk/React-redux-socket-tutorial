@@ -1,83 +1,50 @@
+>Прежде чем начнем. Я все разрабатывал в обратном порядке - сначала крутил мидлваре, потом прокидывал экшены и только потом уже прикручивал адекватный интерфейс в reactjs. Мы в руководстве будем делать все в правильном порядке, потому что так действительно быстрее и проще. Минус моего подхода в том, что я использовал в разы больше отладки и "костылей", чем нужно на самом деле. Будем рациональными.
+
 # Часть вторая. Проектирование будущего приложения
 
+Сначала мы проектируем интерфейс пользователя. Для этого мы примерно представляем как должен выглядеть скелет нашего интерфейса и какие действия будут происходить в нем.
 
-Даня Абрамов писал много про то, что и как нужно разделять в приложении и как организовывать структуру приложения.
+В руководстве для начинающих React представлен подход по проектированию динамических приложений на React, от которого мы не будем отклоняться, а прямо будем следовать по нему.
 
-В прекрасном руководстве для начинающих React представлен подход по проектированию динамических приложений на React, от которого мы не будем отклоняться, а прямо будем следовать по нему.
+Дэн Абрамов писал в своей документации много про то, что и как нужно разделять в приложении и как организовывать структуру приложения. Мы будем следовать его примеру р
+
+## Итак начнем.
+
+Прежде всего хочу сказать, что для наглядности и отладки прямо при написании приложения мы будем добавлять элементы уберем с формы после окончания работы.
 
 
-###Итак начнем.
+### Пользовательский интерфейс "Вариант 1"
 
-Прежде всего хочу сказать, что я приверженец наглядности и отладки прямо при написании приложения, поэтому некоторое количество компонентов мы уберем после окончания работы убрать с формы.
+Мы добавляем два новых раздела на нашу страницу.
 
-###Зачем? (определяем назначение, ставим цель, обозначаем задачи, делаем предоложения и упрощения)
-
-Нам очень сильно интересно Как можно реализовать взаимодействие с Web socket с использованием React в связке с Redux.
-
-Наше приложение должно подключаться к серверу реализующему WebSocket и производить обмен сообщениями.
-
-Упрощения и допущения:
-* Мы не будем использовать авторизации в приложении
-* Мы не будет использовать авторизации в WebSocket-ах 
-* Мы будем использовать самое доступное приложение Websocket Echo ([https://www.websocket.org/echo.html](https://www.websocket.org/echo.html))
-
-### Пользовательский интерфейс 1
-
-Мы добавляем два новых раздела на нашу страницу. 
-
-* В логе подключения сокетов будем кратко выводить текущие события связанные с подключением отключением. 
+В логе подключения сокетов будем кратко выводить текущие события связанные с подключением отключением. Изменяем файл `./src/containers/SocketExample/SocketExamplePage.js`.
 
 ```js
-// src/components/SocketExamplePage.js
 // inside render () { return (...) }
-        <h3>Socket connection log</h3>
-          <textarea className="form-control" rows="1" readOnly placeholder="Waiting ..."
+          <h3>Socket connection log</h3>
+          <textarea
+            className="form-control"
+            rows="1"
+            readOnly
+            placeholder="Waiting ..."
             value="
-            index = 2, loaded = true, message = Connected, connected = true
-            index = 1, loaded = false, message = Connecting..., connected = false"/>
+              index = 2, loaded = true, message = Connected, connected = true
+              index = 1, loaded = false, message = Connecting..., connected = false"/>
 ```
 
 > index - порядковый номер записи лога
-> loaded - загружен ли элемент на странице пользователя
-> message - переменна для отладки и наглядности кода
-> connected - признак подключены ли мы сейчас к серверу 
 
+> loaded - признак загружен ли элемент на странице пользователя
 
-* В логе сообщений будем отображать отправленные `->` и полученные сообщения `<-`.
+> message - переменна-сообщение для отладки и наглядности кода
 
-```js
-// src/components/SocketExamplePage.js
-// inside render () { return (...) }
-      <h3>Message log</h3>
-        <ul>
-            <li key="1" className="unstyled">
-              <span className="glyphicon glyphicon-arrow-right"></span>
-              Socket string
-            </li>
-            <li key="2" className="unstyled">
-              <span className="glyphicon glyphicon-arrow-left"></span>
-              [ECHO] Socket string
-            </li>
-        </ul>
-```
-
-### Пользовательский интерфейс 2
+> connected - признак подключены ли мы сейчас к серверу
 
 Конечно мы забыли про кнопки и поля ввода, добавляем:
 * подключиться к websocket
 * отключиться от websocket
 
-и немного наведем порядка
 ```js
-      <h3>Socket connection log</h3>
-          <textarea
-          className="form-control"
-          rows="1"
-          readOnly
-          placeholder="Waiting ..."
-          value="
-            index = 2, loaded = true, message = Connected, connected = true
-            index = 1, loaded = false, message = Connecting..., connected = false"/>
           <button className="btn btn-primary btn-sm">
             <i className="fa fa-sign-in"/> Connect
           </button>
@@ -86,46 +53,56 @@
           </button>
 ```
 
-
-* отправить сообщение
+В логе сообщений будем отображать отправленные `->` и полученные сообщения `<-`.
 
 ```js
-        <h3>Message log</h3>
-        <ul>
-            <li key="1" className="unstyled">
-              <span className="glyphicon glyphicon-arrow-right"></span>
-              Socket string
-            </li>
-            <li key="2" className="unstyled">
-              <span className="glyphicon glyphicon-arrow-left"></span>
-              [ECHO] Socket string
-            </li>
-        </ul>
-        <form className="form-inline">
-          <p></p>
-          <div className="form-group">
-            <input
-            className="form-control input-sm"
-            type="text"
-            ref="message_text"></input>
-          </div>
-          <button className="btn btn-primary btn-sm">
-            <i className="fa fa-sign-in"/> Send
-          </button>
-        </form>
+// inside render () { return (...) }
+      <h3>Message log</h3>
+      <ul>
+          <li key="1" className="unstyled">
+            <span className="glyphicon glyphicon-arrow-right"></span>
+            Socket string
+          </li>
+          <li key="2" className="unstyled">
+            <span className="glyphicon glyphicon-arrow-left"></span>
+            [ECHO] Socket string
+          </li>
+      </ul>
+```
+
+Кнопка и ввод для отправить сообщение
+
+```js
+      <form className="form-inline">
+        <p></p>
+        <div className="form-group">
+          <input
+          className="form-control input-sm"
+          type="text"
+          ref="message_text"></input>
+        </div>
+        <button className="btn btn-primary btn-sm">
+          <i className="fa fa-sign-in"/> Send
+        </button>
+      </form>
 ```
 
 > Не нажимайте кнопку Send
 
-Окей, закомитимся для получения полного кода.
+Проверяем и закомитимся для получения полного кода.
 
-### Компоненты
+Коммит [https://github.com/valentinmk/react-redux-universal-hot-example/commit/69935996671fc5dd64062143526d1a00b49afcbd](https://github.com/valentinmk/react-redux-universal-hot-example/commit/69935996671fc5dd64062143526d1a00b49afcbd)
+
+
+### Пользовательский интерфейс Вариант 2. Компоненты.
 
 Давайте разделим все на компоненты. Ничего сложного.
 
-Создаем новую папку в директории `src\components` назовем ее `SocketExampleComponents`. 
+Создаем новую папку в директории `src\components` назовем ее `SocketExampleComponents`.
+
 Добавление компонента происходит в три шага
-1. создаем файл с компонентом в нашей папке `SocketConnectionLog.js`
+
+1 - создаем файл с компонентом в нашей папке `SocketConnectionLog.js`
 
 > мы оборачиваем в div так как от нас этого ожидает React
 
@@ -157,13 +134,14 @@ export default class SocketConnectionLog extends Component {
 }
 ```
 
-2. ВАЖНО. Прописываем наш новый компонент в файле `components\index.js`
+2 - прописываем наш новый компонент в файле `components\index.js`
 
 ```js
 export SocketConnectionLog from './SocketExampleComponents/SocketConnectionLog';
 ```
 
-3. Правим нашу страницу и вместо скопированного нами кода вставляем только один элемент
+3 - правим нашу страницу и вместо скопированного нами кода вставляем только один элемент
+
 ```js
 // src/components/SocketExamplePage.js
 // ...
@@ -172,9 +150,10 @@ import {SocketConnectionLog} from 'components';
       <SocketConnectionLog />
 ```
 
-Добавляем другой новый компонент в ту же папку `src\components\SocketExampleComponents`. 
+Добавляем другой новый компонент в ту же папку `src\components\SocketExampleComponents`.
+
 Добавляем в три шага
-1. Cоздаем файл с компонентом в нашей папке `SocketMessageLog.js`
+1 - создаем файл с компонентом в нашей папке `SocketMessageLog.js`
 
 ```js
 import React, {Component} from 'react';
@@ -211,13 +190,13 @@ export default class SocketMessageLog extends Component {
   }
 }
 ```
-2. Прописываем наш новый компонент в файле `components\index.js`
+2 - прописываем наш новый компонент в файле `components\index.js`
 
 ```js
 export SocketMessageLog from './SocketExampleComponents/SocketMessageLog';
 ```
 
-3.Правим нашу страницу и вместо скопированного нами кода вставляем только один элемент
+3 - правим нашу страницу и вместо скопированного нами кода вставляем только один элемент
 
 ```js
 // src/components/SocketExamplePage.js
@@ -232,8 +211,3 @@ import {SocketMessageLog} from 'components';
 
 
 Коммитимся и заканчиваем 2 часть.
-
-
-
-
-

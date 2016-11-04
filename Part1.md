@@ -27,6 +27,7 @@ node -v
 2. Через node.js command line или терминал переходим в эту папку
 3. Запускаем
 
+
 ```bash
 npm install
 npm run dev
