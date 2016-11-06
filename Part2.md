@@ -98,13 +98,13 @@
 
 Давайте разделим все на компоненты. Ничего сложного.
 
-Создаем новую папку в директории `src\components` назовем ее `SocketExampleComponents`.
+Создаем новую папку в директории `./src/components` назовем ее `SocketExampleComponents`.
 
-Добавление компонента происходит в три шага
+Добавление компонента происходит в три шага:
 
 1 - создаем файл с компонентом в нашей папке `SocketConnectionLog.js`
 
-> мы оборачиваем в div так как от нас этого ожидает React
+> мы оборачиваем в содержимое компонента в div так как от нас этого ожидает React
 
 ```js
 import React, {Component} from 'react';
@@ -114,7 +114,7 @@ export default class SocketConnectionLog extends Component {
     return (
       <div>
         <h3>Socket connection log</h3>
-          <textarea
+        <textarea
           className="form-control"
           rows="1"
           readOnly
@@ -122,35 +122,33 @@ export default class SocketConnectionLog extends Component {
           value="
             index = 2, loaded = true, message = Connected, connected = true
             index = 1, loaded = false, message = Connecting..., connected = false"/>
-          <button className="btn btn-primary btn-sm">
-            <i className="fa fa-sign-in"/> Connect
-          </button>
-          <button className="btn btn-danger btn-sm">
-            <i className="fa fa-sign-out"/> Disconnect
-          </button>
+        <button className="btn btn-primary btn-sm">
+          <i className="fa fa-sign-in"/> Connect
+        </button>
+        <button className="btn btn-danger btn-sm">
+          <i className="fa fa-sign-out"/> Disconnect
+        </button>
       </div>
     );
   }
 }
 ```
 
-2 - прописываем наш новый компонент в файле `components\index.js`
+2 - прописываем наш новый компонент в файле `components/index.js`
 
 ```js
 export SocketConnectionLog from './SocketExampleComponents/SocketConnectionLog';
 ```
 
-3 - правим нашу страницу и вместо скопированного нами кода вставляем только один элемент
+3 - правим нашу страницу `./src/components/SocketExamplePage.js` и вместо скопированного нами кода вставляем только один элемент
 
 ```js
-// src/components/SocketExamplePage.js
-// ...
 import {SocketConnectionLog} from 'components';
 // ...
-      <SocketConnectionLog />
+        <SocketConnectionLog />
 ```
 
-Добавляем другой новый компонент в ту же папку `src\components\SocketExampleComponents`.
+Добавляем другой новый компонент в ту же папку `./src/components/SocketExampleComponents`.
 
 Добавляем в три шага
 1 - создаем файл с компонентом в нашей папке `SocketMessageLog.js`
@@ -164,14 +162,14 @@ export default class SocketMessageLog extends Component {
       <div>
         <h3>Message log</h3>
         <ul>
-            <li key="1" className="unstyled">
-              <span className="glyphicon glyphicon-arrow-right"></span>
-              Socket string
-            </li>
-            <li key="2" className="unstyled">
-              <span className="glyphicon glyphicon-arrow-left"></span>
-              [ECHO] Socket string
-            </li>
+          <li key="1" className="unstyled">
+            <span className="glyphicon glyphicon-arrow-right"></span>
+            Socket string
+          </li>
+          <li key="2" className="unstyled">
+            <span className="glyphicon glyphicon-arrow-left"></span>
+            [ECHO] Socket string
+          </li>
         </ul>
         <form className="form-inline">
           <p></p>
@@ -190,24 +188,23 @@ export default class SocketMessageLog extends Component {
   }
 }
 ```
-2 - прописываем наш новый компонент в файле `components\index.js`
+2 - прописываем наш новый компонент в файле `./src/components/index.js`
 
 ```js
 export SocketMessageLog from './SocketExampleComponents/SocketMessageLog';
 ```
-
 3 - правим нашу страницу и вместо скопированного нами кода вставляем только один элемент
 
 ```js
-// src/components/SocketExamplePage.js
 // ...
 import {SocketMessageLog} from 'components';
 // ...
         <SocketMessageLog/>
 ```
 
-Проверяем. Ничего не изменилось - это успех.
+Проверяем. Ничего не изменилось и это успех.
 
+Коммит:
+[https://github.com/valentinmk/react-redux-universal-hot-example/commit/97a6526020a549f2ddf91370ac70dbc0737f167b](https://github.com/valentinmk/react-redux-universal-hot-example/commit/97a6526020a549f2ddf91370ac70dbc0737f167b)
 
-
-Коммитимся и заканчиваем 2 часть.
+Заканчиваем 2 часть.
