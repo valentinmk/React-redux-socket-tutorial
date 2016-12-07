@@ -225,36 +225,37 @@ import React, {Component, PropTypes} from 'react';
   }
 ```
 
-объявляем и присваиваем, переданные через props переменные
+объявляем и присваиваем переменные, переданные через props
 
 ```js
-const {loaded, message, connected} = this.props;
+    const {loaded, message, connected} = this.props;
 ```
 
 используем для вывода наши переменные
 
 ```js
-value={'index =' + 0 + ', loaded = ' + loaded + ', message = ' + message + ', connected = ' + connected}/>
+          value={'index =' + 0 + ', loaded = ' + loaded + ', message = ' + message + ', connected = ' + connected}/>
           {/* value="
             index = 2, loaded = true, message = Connected, connected = true
             index = 1, loaded = false, message = Connecting..., connected = false"/>
           */}
 ```
 
-Проверяем и видим, initialState прилетает к нам прямо из redux-&gt;react-&gt;props-&gt;props
+Проверяем и видим, initialState прилетает к нам прямо из redux->react->props->props. 
 
-Коммитимся на этом моменте.
+Коммит: [https://github.com/valentinmk/react-redux-universal-hot-example/commit/60ac05332e35dfdbc11b9415f5bf5c46cd740ba8](https://github.com/valentinmk/react-redux-universal-hot-example/commit/60ac05332e35dfdbc11b9415f5bf5c46cd740ba8).
 
 ### SocketExampleMessageLog
 
-Теперь переходимо к компоненту `SocketExampleMessageLogи сделаем его абсолютно самостоятельным относительно react. Мы не будем передавать в него никакие props, он будет получать все, что ему нужно через redux.`
+Теперь переходим к компоненту `SocketExampleMessageLog` и сделаем его абсолютно самостоятельным, в смысле работы с redux. Мы не будем передавать в него никакие props, он будет получать все, что ему нужно через redux сам.
 
-Открываем файл src\components\SocketExampleComponents\SocketMessageLog.js
+Открываем файл `./src/components/SocketExampleComponents/SocketMessageLog.js`
 
 в нем добавляем необходимые нам библиотеки
 
 ```js
 import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
 import * as socketExampleActions from 'redux/modules/socketexamplemodule';
 ```
 
@@ -262,35 +263,33 @@ import * as socketExampleActions from 'redux/modules/socketexamplemodule';
 
 ```js
 @connect(
- state => ({
- loaded: state.socketexample.loaded,
- message: state.socketexample.message,
- connected: state.socketexample.connected}),
- socketExampleActions)
+  state => ({
+    loaded: state.socketexample.loaded,
+    message: state.socketexample.message,
+    connected: state.socketexample.connected}),
+  socketExampleActions)
 export default class SocketMessageLog extends Component {
   static propTypes = {
     loaded: PropTypes.bool,
     message: PropTypes.string,
     connected: PropTypes.bool
   }
-  render() {
-    const {loaded, message, connected} = this.props;
  // ...
 ```
 
-Мы будем использовать `loaded  и connected, чтобы определять готовность к обмену сообщения, а message выведем просто для проверки.`
+Мы будем использовать `loaded`  и `connected`, чтобы определять готовность к обмену сообщения, а `message` выведем просто для проверки.
 
-```auto
-<ul>
- <li key="1" className="unstyled">
-  <span className="glyphicon glyphicon-arrow-right"> </span>
-   {message}
- </li>
- <li key="2" className="unstyled">
-  <span className="glyphicon glyphicon-arrow-left"> </span>
-   [ECHO] {message}
-  </li>
- </ul>
+```js
+        <ul>
+          <li key="1" className="unstyled">
+            <span className="glyphicon glyphicon-arrow-right"> </span>
+            {message}
+          </li>
+          <li key="2" className="unstyled">
+            <span className="glyphicon glyphicon-arrow-left"> </span>
+            [ECHO] {message}
+          </li>
+        </ul>
 ```
 
 Я буду проверять переменные loaded и connected явно, чтобы быть более прозрачным для потомков.
