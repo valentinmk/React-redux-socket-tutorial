@@ -148,13 +148,13 @@ export default combineReducers({
 
 В данном контейнере мы будем подключать и получать данные из redux.
 
-Подключаем библиотеку
+Подключаем библиотеку в файле `./src/containers/SocketExample/SocketExamplePage.js`.
 
 ```js
 import {connect} from 'react-redux';
 ```
 
-Забираем экшены, чтобы потом их использовать у себя в react
+Забираем экшены, чтобы потом их использовать у себя в react.
 
 ```js
 import * as socketExampleActions from 'redux/modules/socketexamplemodule';
@@ -166,7 +166,7 @@ import * as socketExampleActions from 'redux/modules/socketexamplemodule';
 import React, {Component, PropTypes} from 'react';
 ```
 
-Пишем конектор, которым будем все забирать
+Пишем конектор, которым будем забирать данные из нашего редюсера.
 
 ```js
 @connect(
@@ -177,19 +177,19 @@ import React, {Component, PropTypes} from 'react';
   socketExampleActions)
 ```
 
-Как вы видите state.socketexample.loaded это обращение в redux, в той струтуре которую мы видим в DevTools.
+Как вы видите `state.socketexample.loaded` это обращение в redux, в той структуре, которую мы видим в DevTools.
 
-Теперь подключаем проверки получаемых из redux данных, что видится целесообразным т.к. любые проверки данных на тип есть гуд.
+Теперь подключаем проверки данных, получаемых из redux, что видится целесообразным т.к. любые проверки данных на тип есть вселенское добро.
 
 ```js
-static propTypes = {
-   loaded: PropTypes.bool,
-   message: PropTypes.string,
-   connected: PropTypes.bool
- }
+  static propTypes = {
+    loaded: PropTypes.bool,
+    message: PropTypes.string,
+    connected: PropTypes.bool
+  }
 ```
 
-Мы получили данные теперь давайте их передавать. Внутри блока render объявляем и принимаем данные уже теперь из props
+Мы получили данные теперь давайте их передавать. Внутри блока render объявляем и принимаем данные уже теперь из props.
 
 ```js
 const {loaded, message, connected} = this.props;
@@ -201,15 +201,15 @@ const {loaded, message, connected} = this.props;
 <SocketConnectionLog loaded={loaded} message={message} connected={connected} />
 ```
 
-Теперь переписываем наш компонент, который уже ничего не знает про redux
+Мы передали новые данные (через react) в компонент. Теперь переписываем наш компонент, который уже ничего не знает про redux, а только обрабатывает переданные ему данные.
 
-В файле `src\components\SocketExampleComponents\SocketConnectionLog.jsдействуевуем по списку:`
+В файле `./src/components/SocketExampleComponents/SocketConnectionLog.js` действуем по списку:
 
 1. проверяем полученые props 
 2. присваиваем их внутри render 
 3. используем в нашем компоненте
 
-Импортируем недостающие библиотеки:
+Начнем, импортируем недостающие библиотеки:
 
 ```js
 import React, {Component, PropTypes} from 'react';
@@ -218,11 +218,11 @@ import React, {Component, PropTypes} from 'react';
 добавляем проверку:
 
 ```js
-static propTypes = { 
-    loaded: PropTypes.bool,  
-    message: PropTypes.string,  
-    connected: PropTypes.bool  
-}
+  static propTypes = {
+    loaded: PropTypes.bool,
+    message: PropTypes.string,
+    connected: PropTypes.bool
+  }
 ```
 
 объявляем и присваиваем, переданные через props переменные
