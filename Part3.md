@@ -316,5 +316,6 @@ export default class SocketMessageLog extends Component {
         </form>
 ```
 
-Полпути пройдено. Коммитимся.
+Полпути пройдено. 
+Коммит: [https://github.com/valentinmk/react-redux-universal-hot-example/commit/a473d6a86262f2d2b52c590974e77df9454de5a1](https://github.com/valentinmk/react-redux-universal-hot-example/commit/a473d6a86262f2d2b52c590974e77df9454de5a1).
 
