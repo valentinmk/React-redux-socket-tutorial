@@ -276,6 +276,11 @@ export default class SocketMessageLog extends Component {
   }
  // ...
 ```
+Не забываем передать значение в метод render() через props
+
+```js
+    const {loaded, message, connected} = this.props;
+```
 
 Мы будем использовать `loaded`  и `connected`, чтобы определять готовность к обмену сообщения, а `message` выведем просто для проверки.
 
@@ -292,23 +297,23 @@ export default class SocketMessageLog extends Component {
         </ul>
 ```
 
-Я буду проверять переменные loaded и connected явно, чтобы быть более прозрачным для потомков.
+Я буду проверять переменные `loaded` и `connected` явно, чтобы быть более прозрачным для (возможных) потомков.
 
 ```js
-<form className="form-inline">
- <p></p>
- <div className="form-group">
-  <input
-   className="form-control input-sm"
-   type="text"
-   ref="message_text" readOnly = {(loaded === true) ? false : true}></input>
- </div>
- <button
-  className="btn btn-primary btn-sm"
-  disabled = {(connected === true) ? false : true}>
-  <i className="fa fa-sign-in"/> Send
- </button>
-</form>
+      <form className="form-inline">
+       <p></p>
+       <div className="form-group">
+        <input
+         className="form-control input-sm"
+         type="text"
+         ref="message_text" readOnly = {(loaded === true) ? false : true}></input>
+       </div>
+       <button
+        className="btn btn-primary btn-sm"
+        disabled = {(connected === true) ? false : true}>
+        <i className="fa fa-sign-in"/> Send
+       </button>
+      </form>
 ```
 
 Полпути пройдено. Коммитимся.
