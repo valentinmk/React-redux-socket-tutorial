@@ -76,7 +76,7 @@ const initialState = {
 
 ### Экшены 2
 
-Ну а теперь продолжим с нашими экшенами и на этом завершим этот модуль.
+Теперь продолжим с нашими экшенами и на этом завершим этот модуль. Мы должны описать, как они будут изменять состояние reducer'a.
 
 Добавляем в тот же файл.
 ```js
@@ -125,13 +125,13 @@ export default combineReducers({
 });
 ```
 
-Запускаем, проверяем и ура в DevTools мы видим.
+Запускаем сервер, проверяем и ура в DevTools мы видим.
 
 ![](redux_new.tiff)
 
-Если вопросы с initialState остались попробуйте их поменять или добавить новую переменную в него.
+Если вопросы с initialState остались, то попробуйте их поменять или добавить новую переменную в него.
 
-Коммитимся на этом моменте.
+Коммит: [https://github.com/valentinmk/react-redux-universal-hot-example/commit/0c984e3b5bc25056aa578ee57f90895bc6baaf18](https://github.com/valentinmk/react-redux-universal-hot-example/commit/0c984e3b5bc25056aa578ee57f90895bc6baaf18)
 
 ### Стор
 
