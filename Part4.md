@@ -4,7 +4,7 @@
 
 В этой части мы будем связывать события в react и состояниями в redux. Начнем.
 
-Оживим история в нашем компоненте `src\components\SocketExampleComponents\SocketConnectionLog.js`
+Оживим историю в нашем компоненте `./src/components/SocketExampleComponents/SocketConnectionLog.js`.
 Но как мы помним он ничего про redux не знает и поэтому нужно передать ему экшены от редюсера через контейнер `src\containers\SocketExample\SocketExamplePage.js`.
 
 Вообще все функции экшенов мы подключили через @connect, поэтому включаем их в проверку 
