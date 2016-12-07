@@ -28,6 +28,7 @@ export const SOCKETS_MESSAGE_RECEIVING = 'SOCKETS_MESSAGE_RECEIVING';
 
 ### Редюсер
 
+Добавляем в тот же файл.
 ```js
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
@@ -63,7 +64,7 @@ export default function reducer(state = initialState, action = {}) {
 
 Более подробно про структуру reducer и зачем `Object.assign({}, state,{});` можно прочитать [тут](http://redux.js.org/docs/basics/Reducers.html).
 
-Вы заметили инициализацию state = initialState, которой мы не объявили (поставьте ESLint или его аналог - сильно упростит жизнь Нормального Человека). Добавим объявление до редюсера. Это будет первое состояние, которое мы будем иметь в нашем redux на момент загрузки страницы, ну точнее она будет с этим значение загружаться.
+Вы заметили инициализацию state = initialState, которой мы не объявили (поставьте ESLint или его аналог - сильно упростит жизнь Нормального Человека). Добавим объявление до редюсера. Это будет первое состояние, которое мы будем иметь в нашем redux на момент загрузки страницы, ну точнее страница будет загружаться уже с этим первоначальным состоянием.
 
 ```js
 const initialState = {
@@ -77,6 +78,7 @@ const initialState = {
 
 Ну а теперь продолжим с нашими экшенами и на этом завершим этот модуль.
 
+Добавляем в тот же файл.
 ```js
 export function socketsConnecting() {
   return {type: SOCKETS_CONNECTING};
@@ -94,9 +96,9 @@ export function socketsMessageReceiving() {
 
 ### Подключаем в общий редюсер
 
-На данный момент в приложении ничего не поменяется. Включаем наш модуль в общий reducer.
+На данный момент в приложении ничего не поменяется. Включаем наш модуль в общий контструктор reducer'ов.
 
-В фале `src\redux\modules\reducer.jsпрописываем модуль`
+В фале `./src/redux/modules/reducer.js` прописываем модуль.
 
 ```js
 import socketexample from './socketexamplemodule';
@@ -116,7 +118,8 @@ export default combineReducers({
     counter3: counter
   }),
   info,
-  widgets,
+  pagination,
+  widgets,  
 // our hero
   socketexample
 });
