@@ -2,16 +2,17 @@
 
 Переходим сразу к Redux
 
-Для этого нужно создать редусер 
-Создать экшены
-И подключить все это в общую систему
+Для этого нужно: 
+* Cоздать редусер   
+* Создать экшены  
+* И подключить все это в общую систему
 
-> Про экшены написано [В официальной документации](redux.js.org)
-> Про редюсеры написано \(ссылка\)
+> Про экшены написано [В официальной документации](http://redux.js.org/docs/basics/Actions.html)  
+> Про редюсеры написано [Там же](http://redux.js.org/docs/basics/Reducers.html)
 
 ### Создаем файл
 
-Создаем файл `src\redux\modules\socketexamplemodule.js` и наполняем базовыми экшенами и редюсерами \(вот тут базовом примере есть странная нестыковка, все предлагается писать в одном файле не разделяя на файл экшенов и редюсеров, ну и пусть мы то все тут взрослые \(`we are all adults`\)\).
+Создаем файл `./src/redux/modules/socketexamplemodule.js` и наполняем базовыми экшенами и редюсерами. Вот тут базовом примере есть странная нестыковка, все предлагается писать в одном файле не разделяя на файл экшенов и редюсеров, ну допустим. Все равно - мы тут все взрослые люди (we are all adults).
 
 ### Экшены 1
 
@@ -22,7 +23,7 @@ export const SOCKETS_MESSAGE_SENDING = 'SOCKETS_MESSAGE_SENDING';
 export const SOCKETS_MESSAGE_RECEIVING = 'SOCKETS_MESSAGE_RECEIVING';
 ```
 
-Все эти экшены мы будем запускать по нажатию кнопок и `SOCKETS_MESSAGE_RECEIVING` мы синтетически вызывать вслед за отпракой сообщения.
+Все эти экшены мы будем запускать по нажатию кнопок и `SOCKETS_MESSAGE_RECEIVING мы синтетически вызывать вслед за отпракой сообщения.`
 
 ### Редюсер
 
@@ -59,7 +60,7 @@ export default function reducer(state = initialState, action = {}) {
 }
 ```
 
-Более подробно про структуру reducer можно прочитать тут. Более подробно зачем `Object.assign({}, state,{});` можно прочитать тут.
+Более подробно про структуру reducer можно прочитать тут. Более подробно зачем `Object.assign({}, state,{}); можно прочитать тут.`
 
 Вы заметили инициализацию state = initialState добавим ее до объявления редюсера. Это будет первое состояние, которое мы будем иметь в нашем redux на момент загрузки страницы, ну точнее она будет с этим значение загружаться.
 
@@ -94,7 +95,7 @@ export function socketsMessageReceiving() {
 
 На данный момент в приложении ничего не поменяется. Включаем наш модуль в общий reducer.
 
-В фале `src\redux\modules\reducer.js`прописываем модуль
+В фале `src\redux\modules\reducer.jsпрописываем модуль`
 
 ```js
 import socketexample from './socketexamplemodule';
@@ -136,7 +137,7 @@ export default combineReducers({
 
 Подключаем все это теперь в наши модули. В целях всесторонней демонстрации начнем с модуля истории и сделаем из него чистый компонент react \(в смысле чисты от redux\).
 
-Компонент `SocketConnectionLog` мы пока не трогаем, а идем сразу в контейнер `SocketExamplePage`.
+Компонент `SocketConnectionLog мы пока не трогаем, а идем сразу в контейнер SocketExamplePage.`
 
 В данном контейнере мы будем подключать и получать данные из redux.
 
@@ -174,7 +175,7 @@ import React, {Component, PropTypes} from 'react';
 Теперь подключаем проверки получаемых из redux данных, что видится целесообразным т.к. любые проверки данных на тип есть гуд.
 
 ```js
- static propTypes = {
+static propTypes = {
    loaded: PropTypes.bool,
    message: PropTypes.string,
    connected: PropTypes.bool
@@ -190,12 +191,12 @@ const {loaded, message, connected} = this.props;
 и спокойно и уверенно передаем их в наш модуль:
 
 ```js
- <SocketConnectionLog loaded={loaded} message={message} connected={connected} />
+<SocketConnectionLog loaded={loaded} message={message} connected={connected} />
 ```
 
 Теперь переписываем наш компонент, который уже ничего не знает про redux
 
-В файле `src\components\SocketExampleComponents\SocketConnectionLog.js`действуевуем по списку:
+В файле `src\components\SocketExampleComponents\SocketConnectionLog.jsдействуевуем по списку:`
 
 1. проверяем полученые props 
 2. присваиваем их внутри render 
@@ -210,23 +211,23 @@ import React, {Component, PropTypes} from 'react';
 добавляем проверку:
 
 ```js
-  static propTypes = { 
+static propTypes = { 
     loaded: PropTypes.bool,  
     message: PropTypes.string,  
     connected: PropTypes.bool  
 }
 ```
 
-объявляем и присваиваем, переданные через props переменные 
+объявляем и присваиваем, переданные через props переменные
 
 ```js
- const {loaded, message, connected} = this.props;
+const {loaded, message, connected} = this.props;
 ```
 
 используем для вывода наши переменные
 
 ```js
-          value={'index =' + 0 + ', loaded = ' + loaded + ', message = ' + message + ', connected = ' + connected}/>
+value={'index =' + 0 + ', loaded = ' + loaded + ', message = ' + message + ', connected = ' + connected}/>
           {/* value="
             index = 2, loaded = true, message = Connected, connected = true
             index = 1, loaded = false, message = Connecting..., connected = false"/>
@@ -239,7 +240,7 @@ import React, {Component, PropTypes} from 'react';
 
 ### SocketExampleMessageLog
 
-Теперь переходимо к компоненту `SocketExampleMessageLog `и сделаем его абсолютно самостоятельным относительно react. Мы не будем передавать в него никакие props, он будет получать все, что ему нужно через redux.
+Теперь переходимо к компоненту `SocketExampleMessageLogи сделаем его абсолютно самостоятельным относительно react. Мы не будем передавать в него никакие props, он будет получать все, что ему нужно через redux.`
 
 Открываем файл src\components\SocketExampleComponents\SocketMessageLog.js
 
@@ -250,7 +251,7 @@ import React, {Component, PropTypes} from 'react';
 import * as socketExampleActions from 'redux/modules/socketexamplemodule';
 ```
 
-добавляем `connect`, проверку типов и испольщуем полученные данные
+добавляем `connect, проверку типов и испольщуем полученные данные`
 
 ```js
 @connect(
@@ -269,7 +270,8 @@ export default class SocketMessageLog extends Component {
     const {loaded, message, connected} = this.props;
  // ...
 ```
-Мы будем использовать `loaded`  и `connected`, чтобы определять готовность к обмену сообщения, а `message` выведем просто для проверки.
+
+Мы будем использовать `loaded  и connected, чтобы определять готовность к обмену сообщения, а message выведем просто для проверки.`
 
 ```auto
 <ul>
@@ -283,6 +285,7 @@ export default class SocketMessageLog extends Component {
   </li>
  </ul>
 ```
+
 Я буду проверять переменные loaded и connected явно, чтобы быть более прозрачным для потомков.
 
 ```js
@@ -301,28 +304,6 @@ export default class SocketMessageLog extends Component {
  </button>
 </form>
 ```
+
 Полпути пройдено. Коммитимся.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
