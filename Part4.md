@@ -4,10 +4,24 @@
 
 В этой части мы будем связывать события в react и состояния в redux. Начнем.
 
-Оживим историю в нашем компоненте `./src/components/SocketExampleComponents/SocketConnectionLog.js`.
-Но как мы помним он ничего про redux не знает. Это означает, что он ничего не знает про экшены и поэтому ему их нужно передать через контейнер  `./src/containers/SocketExample/SocketExamplePage.js`. Просто передаем компоненту их как будто это простые props.
+Оживим историю подключений в нашем компоненте `./src/components/SocketExampleComponents/SocketConnectionLog.js`.
+Но как мы помним, он ничего про redux не знает. Это означает, что он ничего не знает про экшены и поэтому ему их нужно передать через контейнер  `./src/containers/SocketExample/SocketExamplePage.js`. Просто передаем компоненту их как будто это простые props.
 
-Вообще все функции экшенов мы подключили через @connect, поэтому просто включаем их в проверку в файле `./src/containers/SocketExample/SocketExamplePage.js`: 
+Вообще все функции экшенов мы подключили через @connect. Стоп. Подробней. Вспомним.
+```js
+//....
+import * as socketExampleActions from 'redux/modules/socketexamplemodule';
+//....
+@connect(
+  state => ({
+    loaded: state.socketexample.loaded,
+    message: state.socketexample.message,
+    connected: state.socketexample.connected}),
+  socketExampleActions)
+```
+
+Поэтому просто включаем их в проверку в файле `./src/containers/SocketExample/SocketExamplePage.js`: 
+
 ```js
 static propTypes = {
   loaded: PropTypes.bool,
@@ -17,75 +31,80 @@ static propTypes = {
   socketsDisconnecting: PropTypes.func
  }
 ```
-и передаем в наш комплонент 
+и передаем в наш компонент 
 
 ```js
-render() {
- const {loaded, message, connected, socketsConnecting, socketsDisconnecting} = this.props;
- return (
-  <div className="container">
-  <h1>Socket Example Page</h1>
-  <Helmet title="Socket Exapmle Page"/>
-  <p>Sockets not connected</p>
-  <SocketConnectionLog loaded={loaded} message={message} connected={connected} connectAction={socketsConnecting} disconnectAction={socketsDisconnecting}/>
-  <SocketMessageLog />
-  </div>
- );
-}
+  render() {
+    const {loaded, message, connected, socketsConnecting, socketsDisconnecting} = this.props;
+    return (
+      <div className="container">
+        <h1>Socket Exapmle Page</h1>
+        <Helmet title="Socket Exapmle Page"/>
+        <SocketConnectionLog loaded={loaded} message={message} connected={connected} connectAction={socketsConnecting} disconnectAction={socketsDisconnecting}/>
+        <SocketMessageLog/>
+      </div>
+    );
+  }
 ```
 
-Теперь давайте свяжем все воедино уже в `src\components\SocketExampleComponents\SocketConnectionLog.js`
-Мы будем добавлять в проверки и использовать в наших функция обработчика действий на форме.
+Теперь давайте обеспечим прием преданных в компонент экшенов в файле `./src/components/SocketExampleComponents/SocketConnectionLog.js`.
+Мы будем добавлять их (экшены) в проверку и использовать в наших обработчиках действий на форме. Обработчиков сделаем два: по клику кнопки "Connect" и "Disconnect".
 
 ```js
- static propTypes = {
-  loaded: PropTypes.bool,
-  message: PropTypes.string,
-  connected: PropTypes.bool,
-  connectAction: PropTypes.func,
-  disconnectAction: PropTypes.func
- }
- handleConnectButton = (event) => {
-  event.preventDefault();
-  this.props.connectAction();
- }
- handleDisconnectButton = (event) => {
-  event.preventDefault();
-  this.props.disconnectAction();
- }
+  static propTypes = {
+    loaded: PropTypes.bool,
+    message: PropTypes.string,
+    connected: PropTypes.bool,
+    connectAction: PropTypes.func,
+    disconnectAction: PropTypes.func
+  }
+  handleConnectButton = (event) => {
+    event.preventDefault();
+    this.props.connectAction();
+  }
+  handleDisconnectButton = (event) => {
+    event.preventDefault();
+    this.props.disconnectAction();
+  }
 ```
 
-мы будем вызывать наши функции по нажатию кнопок
+Прописываем вызов обработчиков функций по нажатию соответсвующих кнопок.
 
 ```js
-render() {
- const {loaded, message, connected} = this.props;
- return (
-  <div>
-   <h3>Socket connection log</h3>
-   <textarea
-    className="form-control"
-    rows="1"
-    readOnly
-    placeholder="Waiting ..."
-    value={'index =' + 0 + ', loaded = ' + loaded + ', message = ' + message + ', connected = ' + connected}/>
-   <button
-    className="btn btn-primary btn-sm"
-    onClick={this.handleConnectButton}>
-    <i className="fa fa-sign-in"/> Connect
-   </button>
-   <button
-    className="btn btn-danger btn-sm"
-    onClick={this.handleDisconnectButton}>
-    <i className="fa fa-sign-out"/> Disconnect
-   </button>
- </div>
- );
+  render() {
+    const {loaded, message, connected} = this.props;
+    return (
+      <div>
+        <h3>Socket connection log</h3>
+        <textarea
+          className="form-control"
+          rows="1"
+          readOnly
+          placeholder="Waiting ..."
+          value={'index =' + 0 + ', loaded = ' + loaded + ', message = ' + message + ', connected = ' + connected}/>
+          {/* value="
+            index = 2, loaded = true, message = Connected, connected = true
+            index = 1, loaded = false, message = Connecting..., connected = false"/>
+          */}
+        <button
+          className="btn btn-primary btn-sm"
+          onClick={this.handleDisconnectButton}>
+          <i className="fa fa-sign-in"/> Connect
+        </button>
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={this.handleConnectButton}>
+          <i className="fa fa-sign-out"/> Disconnect
+        </button>
+      </div>
+    );
 ```
 
-Ура оно живо. Можно посмотреть в DevTools, что соответсвующие события создаются в redux. Если немного поиграться, то можно заметить, что компонент истории сообщений работает как-то не так (хотя он написан правильно). Давай-те поправим. 
+Запускаем. Проверяем. Ура, оно живо! Можно посмотреть в DevTools, что соответсвующие события создаются в redux. 
 
-Для этого в файле `src\redux\modules\socketexamplemodule.js` правим странные строчки
+Если внимательно проследить как меняются состояния, то можно заметить, что компонент истории сообщений работает как-то не так (хотя он написан правильно). Дело в том, что при нажатии кнопки подключения у нас состояние connected = false, а при разрыве подключения у нас состояние connected = true. Давай-те поправим. 
+
+Для этого в файле `./src/redux/modules/socketexamplemodule.js` правим странные строчки
 
 ```js
  case SOCKETS_CONNECTING:
@@ -101,42 +120,46 @@ render() {
    connected: false
   });
 ```
-Ну теперь все работает правильно. НО далее мы поменяем эти значения на исходные, это важный момент, что событие подключения не тожственно состоянию подлючено (да я кэп).
+Ну теперь все работает правильно. 
 
-Реализуем историю подключения. Мы можем накапливать информацию о в состоянии, но при этом мы не можем именять само состояние, хотя можем его целиком пересоздавать.
+>НО далее мы поменяем эти значения на исходные, это важный момент. Cобытие попытки подключения не тожственно состоянию подлючено (да я кэп).
+
+Реализуем историю подключения. Главное ограничение принцип работы самого redux. Мы нее можем изменять само состояние, но мы можем его целиком пересоздавать и присваивать. Пожтому чтобы накапливать историю мы будем ее копировать, прибавлять к копии текущее состояние и присваивать это значение оригиналу (с которого сняли копию).
 
 ```js
-case SOCKETS_CONNECTING:
- return Object.assign({}, state, {
-  loaded: true,
-  message: 'Connecting...',
-  connected: true,
-  history: [
-   ...state.history,
-   {
-    loaded: true,
-    message: 'Connecting...',
-    connected: true
-   }
-  ]
- });
- case SOCKETS_DISCONNECTING:
-  return Object.assign({}, state, {
-   loaded: true,
-   message: 'Disconnecting...',
-   connected: false,
-   history: [
-    ...state.history,
-    {
-     loaded: true,
-     message: 'Disconnecting...',
-     connected: false
-    }
-   ]
- });
+    case SOCKETS_CONNECTING:
+      return Object.assign({}, state, {
+        loaded: true,
+        message: 'Connecting...',
+        connected: true,
+        history: [
+          ...state.history,
+          {
+            loaded: true,
+            message: 'Connecting...',
+            connected: true
+          }
+        ]
+      });
+    case SOCKETS_DISCONNECTING:
+      return Object.assign({}, state, {
+        loaded: true,
+        message: 'Disconnecting...',
+        connected: false,
+        history: [
+          ...state.history,
+          {
+            loaded: true,
+            message: 'Disconnecting...',
+            connected: false
+          }
+        ]
+      });
 ```
 
-Делаем отображение тут же. В файле нашего `SocketConnectionLog.js`, а нет он же не знает про нашу историю, поэтому передаем как и прежде, в файле `SocketExamplePage.js`. Сам контейнер тоже не знает про историю ничего, поэтому:
+Делаем отображение в том же элементе. Прежде всего передаем переменную истории через props в файле `./src/containers/SocketExample/SocketExamplePage.js`. Далее в файле `./src/components/SocketExampleComponents/SocketConnectionLog.js` принимает переданную переменную.
+
+Приступим в файле `./src/containers/SocketExample/SocketExamplePage.js` забираем из редусера:
 ```js
 @connect(
  state => ({
@@ -147,16 +170,34 @@ case SOCKETS_CONNECTING:
  }),
  socketExampleActions)
 ```
+проверяем на тип 
+```js
+  static propTypes = {
+    loaded: PropTypes.bool,
+    message: PropTypes.string,
+    connected: PropTypes.bool,
+    socketsConnecting: PropTypes.func,
+    socketsDisconnecting: PropTypes.func,
+    history: PropTypes.array
+  }
+```
+
 присваиваем и передаем 
 
 ```js
-// ...
-const {loaded, message, connected, socketsConnecting, socketsDisconnecting, history} = this.props;
-// ...
-  <SocketConnectionLog loaded={loaded} message={message} connected={connected} connectAction={socketsConnecting} disconnectAction={socketsDisconnecting} history={history}/>
+    const {loaded, message, connected, socketsConnecting, socketsDisconnecting} = this.props;
+    return (
+      <div className="container">
+        <h1>Socket Exapmle Page</h1>
+        <Helmet title="Socket Exapmle Page"/>
+        <SocketConnectionLog loaded={loaded} message={message} connected={connected} connectAction={socketsConnecting} disconnectAction={socketsDisconnecting} history={history}/>
+        <SocketMessageLog/>
+      </div>
+    );
 ```
 
-Принимаем в файле `SocketConnectionLog.js`
+Принимаем уже в файле `./src/components/SocketExampleComponents/SocketConnectionLog.js`.
+
 ```js
  static propTypes = {
    loaded: PropTypes.bool,
