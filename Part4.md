@@ -176,16 +176,17 @@ static propTypes = {
     loaded: PropTypes.bool,
     message: PropTypes.string,
     connected: PropTypes.bool,
+    history: PropTypes.array,
     socketsConnecting: PropTypes.func,
-    socketsDisconnecting: PropTypes.func,
-    history: PropTypes.array
+    socketsDisconnecting: PropTypes.func    
   }
 ```
 
 присваиваем и передаем 
 
 ```js
-    const {loaded, message, connected, socketsConnecting, socketsDisconnecting} = this.props;
+  render() {
+    const {loaded, message, connected, socketsConnecting, socketsDisconnecting, history} = this.props;
     return (
       <div className="container">
         <h1>Socket Exapmle Page</h1>
@@ -208,44 +209,57 @@ static propTypes = {
    disconnectAction: PropTypes.func
  }
 ```
-Давайте выведем в обратной хронологии. 
+Для вывода истории в лог нам уже на самом деле не требуются текущие значения `loaded`, `message`, `connected`.
+
+Давайте выведем в историю в обратной хронологии, так чтобы актуально состояние всегда было сверху. 
 
 ```js
-render() {
- const {history} = this.props;
- return (
-   <div>
-     <h3>Socket connection log</h3>
-     <textarea
-       className="form-control"
-       rows="1"
-       readOnly
-       placeholder="Waiting ..."
-       value={
-         history.map((historyElement, index) =>
-         'index = ' + index +
-         ' loaded = ' + historyElement.loaded.toString() +
-         ' message = ' + historyElement.message.toString() +
-         ' connected = ' + historyElement.connected.toString() + ' \n').reverse()
-       }
-     />
-     <button
-       className="btn btn-primary btn-sm"
-       onClick={this.handleConnectButton}>
-       <i className="fa fa-sign-in"/> Connect
-     </button>
-     <button
-       className="btn btn-danger btn-sm"
-       onClick={this.handleDisconnectButton}>
-       <i className="fa fa-sign-out"/> Disconnect
-     </button>
-   </div>
- );
+  render() {
+    const {history} = this.props;
+    return (
+      <div>
+        <h3>Socket connection log</h3>
+        <textarea
+          className="form-control"
+          rows="1"
+          readOnly
+          placeholder="Waiting ..."
+          value={
+            history.map((historyElement, index) =>
+              'index = ' + index +
+              ' loaded = ' + historyElement.loaded.toString() +
+              ' message = ' + historyElement.message.toString() +
+              ' connected = ' + historyElement.connected.toString() + ' \n').reverse()
+            }/>
+        <button
+          className="btn btn-primary btn-sm"
+          onClick={this.handleConnectButton}>
+          <i className="fa fa-sign-in"/> Connect
+        </button>
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={this.handleDisconnectButton}>
+          <i className="fa fa-sign-out"/> Disconnect
+          </button>
+      </div>
+    );
+```
+Главное, что нужно не забыть это добавить `history` при инициализации  редюсера, иначе наши проверки не будут срабатывать. 
+
+В файле `./src/redux/modules/socketexamplemodule.js`.
+
+```js
+const initialState = {
+  loaded: false,
+  message: 'Just created',
+  connected: false,
+  history: []
+};
 ```
 
-Проверяем. И получаем запятые, Javascript, WTF? Ну да ладно - .join('') все решает. 
+Проверяем. И получаем нашу запись в истории подключения, но почему то с запятыми. Javascript, WTF? Ну да ладно, если мы добавим после мапа и реверса .join(''), то это все решает. 
 > ".join('') все решает.", Карл!
 
-Итого, читаем и пишем в redux, можно себя похвалить, но этого явно мало. Ведь мы делаем это только внутри себя.
+Какой у нас результат? Читаем и пишем в redux! Можно себя похвалить! Но этого явно мало, ведь мы делаем это только внутри своей же собственной странички и никак не общаемся с внешним миром.
 
-Коиммитимся.
+Коммит:
