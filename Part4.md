@@ -262,4 +262,4 @@ const initialState = {
 
 Какой у нас результат? Читаем и пишем в redux! Можно себя похвалить! Но этого явно мало, ведь мы делаем это только внутри своей же собственной странички и никак не общаемся с внешним миром.
 
-Коммит:
+Коммит: [https://github.com/valentinmk/react-redux-universal-hot-example/commit/24144226ea4c08ec1af5db3a5e9b37461be2dbdd](https://github.com/valentinmk/react-redux-universal-hot-example/commit/24144226ea4c08ec1af5db3a5e9b37461be2dbdd)
