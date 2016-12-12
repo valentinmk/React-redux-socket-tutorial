@@ -8,7 +8,7 @@
 
 ###Первый проход
 
-Создаем новый файл `src\redux\middleware\SocketExampleMiddleware.js`
+Создаем новый файл `./src/redux/middleware/SocketExampleMiddleware.js`
 
 В этот файл нам нужно добавить экшены, которые мы будем обрабатывать, нам понадобится фактически структура того же редюсера. Приступим.
 
