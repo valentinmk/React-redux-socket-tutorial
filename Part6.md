@@ -19,7 +19,7 @@
 ```js
 import * as socketExampleActions from 'redux/modules/socketexamplemodule';
 
-export default function createSocketExampleMiddleware () {
+export default function createSocketExampleMiddleware() {
   let socketExample = null;
   socketExample = true;
 
@@ -47,7 +47,7 @@ import createSocketExampleMiddleware from './middleware/socketExampleMiddleware'
     createMiddleware(client),
     reduxRouterMiddleware,
     thunk,
-    createSocketExampleMiddleware
+    createSocketExampleMiddleware()
   ];
 ```
 
