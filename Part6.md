@@ -8,46 +8,50 @@
 
 ###Первый проход
 
-Создаем новый файл `./src/redux/middleware/SocketExampleMiddleware.js`
+Создаем новый файл `./src/redux/middleware/socketExampleMiddleware.js`
 
-В этот файл нам нужно добавить экшены, которые мы будем обрабатывать, нам понадобится фактически структура того же редюсера. Приступим.
+В этот файл нам нужно добавить экшены, которыми мы будем манипулировать. По своему принципу мидлваре напоминает структуру редюсера, но этому будет проиллюстрировано ниже. 
+
+Для начала просто проверяем, что концепция работает и делаем тестовый прототип, который будет подтверждением подхода.
+
+ 
 
 ```js
-import * as SocketExampleActions from 'redux/modules/socketexamplemodule';
+import * as socketExampleActions from 'redux/modules/socketexamplemodule';
 
-export default function SocketExampleMiddleware() {
+export default function socketExampleMiddleware() {
   let socketExample = null;
   socketExample = true;
 
   return store => next => action => {
     switch (action.type) {
       default:
-        console.log(store, socketExample, SocketExampleActions);
+        console.log(store, socketExample, socketExampleActions);
         return next(action);
     }
   };
 }
 ```
+Подробнее. Вообще мидлваре управляет самим редуксом и как он обрабатывает события и состояния внутри себя. Использую конструкцию `return store => next => action =>` мы вмешиваемся в каждый экшен происходящий в редукци и по полю `switch (action.type)` выполняем те или иные действия.
 
-Давайте это будет действительно простой пример и логирование наша любимая "лакмусовая бумажка".
+У нас сейчас действительно простой пример и логирование в консоль самый просто способ посмотреть, что у нас прилитает в переменных `store, socketExample, socketExampleActions`.
 
-Теперь все не работает, нужно подключить сначала. Делаем.
-`src\redux\create.js`.
+Не проверяем, у нас ничего не работает, потому что мы не подключили наш класс в мидлваре. Исправляем. 
 
-Меняем пару строк
+В файле `./src/redux/create.js` меняем пару строк.
 
 ```js
-import createSocketExampleMiddleware from './middleware/SocketExampleMiddleware';
+import createSocketExampleMiddleware from './middleware/socketExampleMiddleware';
 //...
   const middleware = [
     createMiddleware(client),
     reduxRouterMiddleware,
-    createSocketExampleMiddleware()
+    thunk,
+    createSocketExampleMiddleware
   ];
 ```
 
-Окей, теперь в консоле полный беспорядок, но в целом все работает.
-Коммитимся.
+Запускаем проверяем. Теперь в консоле полный беспорядок, но оно же целом все работает!
 
 ### Второй проход
 
