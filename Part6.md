@@ -53,7 +53,7 @@ import createSocketExampleMiddleware from './middleware/socketExampleMiddleware'
 ```
 
 Запускаем проверяем. Теперь в консоле полный беспорядок, но оно же целом все работает!
-Коммит: 
+Коммит: [https://github.com/valentinmk/react-redux-universal-hot-example/commit/7833a405be3445e58e8e672e9db03f8cfbfde022](https://github.com/valentinmk/react-redux-universal-hot-example/commit/7833a405be3445e58e8e672e9db03f8cfbfde022)
 
 ### Второй проход
 
