@@ -93,11 +93,12 @@ export default class SocketMessageLog extends Component {
     loaded: PropTypes.bool,
     message: PropTypes.string,
     connected: PropTypes.bool,
-    message_history: PropTypes.array
+    message_history: PropTypes.array,
+    socketsMessageSending: PropTypes.func
   }
 ```
 
-Теперь нам нужны функции, которые будут обрабатывать нажатия кнопок на форме
+Теперь нам нужны функции, которые будут обрабатывать нажатия кнопок на форме.
 ```js
   handleSendButton = (event) => {
     event.preventDefault();
@@ -105,25 +106,26 @@ export default class SocketMessageLog extends Component {
     this.refs.message_text.value = '';
   }
 ```
-Забираем по ссылке `message_text` и тут же стираем ее значние для ввода нового. Главное, что мы передаем `message_text` в наш экшен оправки сообщения. 
-Прописываем рендер и тестируем. 
-Не забываем
+Подробнее, забираем по ссылке из поля `message_text`. Передаем `message_text` в наш экшен оправки сообщения.  Стираем значние в этом поле для ввода нового.
+
+Добавляем переменную в props.
 ```js
-const {loaded, message, connected, message_history} = this.props;
+    const {loaded, connected, message_history} = this.props;
 ```
 Выводим лог сообщений, по аналогии с подключением
 ```js
-        <ul>
-          {
-            message_history.map((messageHistoryElement, index) =>
-            <li key={index} className={'unstyled'}>
-              <span className={(messageHistoryElement.direction === '->') ? 'glyphicon glyphicon-arrow-right' : 'glyphicon glyphicon-arrow-left'}></span>
-            {messageHistoryElement.message}</li>
-          )}
-        </ul>
+          <ul>
+            {
+              message_history.map((messageHistoryElement, index) =>
+              <li key={index} className={'unstyled'}>
+                <span className={(messageHistoryElement.direction === '->') ? 'glyphicon glyphicon-arrow-right' : 'glyphicon glyphicon-arrow-left'}></span>
+                {messageHistoryElement.message}
+              </li>
+            )}
+          </ul>
 ```
 
-> Не пытайтесь использовать более вложенные ветвления - это у вас не получится. Вас будут от этого защищать по причине того, что здесь не место вычислений данных. Здесь вообще про интерфейс.
+> Не пытайтесь использовать более вложенные ветвления - это у вас не получится. Т.е. не пытайтесь использовать вложенные ' '?' ':' '. Вас будут от этого защищать. Причина - здесь не место вычислений данных. Здесь вообще про интерфейс.
 
 Обновляем форму и кнопки
 ```js
