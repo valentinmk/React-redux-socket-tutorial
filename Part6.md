@@ -52,6 +52,7 @@ import createSocketExampleMiddleware from './middleware/socketExampleMiddleware'
 ```
 
 Запускаем проверяем. Теперь в консоле полный беспорядок, но оно же целом все работает!
+Коммит: 
 
 ### Второй проход
 
