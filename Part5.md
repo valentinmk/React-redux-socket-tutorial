@@ -194,5 +194,5 @@ static propTypes = {
 
 Отлично, ~~скучная~~ кропотливая часть закончилась!
 
-Коммит: .
+Коммит: (https://github.com/valentinmk/react-redux-universal-hot-example/commit/5158391cdd53545408637fd732c981f17852e84b)[https://github.com/valentinmk/react-redux-universal-hot-example/commit/5158391cdd53545408637fd732c981f17852e84b].
 
