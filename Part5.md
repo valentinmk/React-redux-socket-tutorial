@@ -159,7 +159,9 @@ export default class SocketMessageLog extends Component {
     this.refs.message_text.value = '';
   }
 ```
-и не забываем добавить новые элементы в проверку!
+Подробнее, в дополнение к предыдущей версии мы вызывает экшен получения сообщения и передаем в него наше сообщение `this.refs.message_text.value`.
+
+Не забываем добавить новые элементы в проверку!
 ```js
   static propTypes = {
     loaded: PropTypes.bool,
@@ -171,6 +173,7 @@ export default class SocketMessageLog extends Component {
   }
 ```
 
-Коммитимся. 
-
 Отлично, скучная часть закончилась!
+
+
+Коммит.
