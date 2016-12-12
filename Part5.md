@@ -150,7 +150,7 @@ export default class SocketMessageLog extends Component {
 ```
 Тестируем и видим отправленные сообщения. 
 
-Давайте сэмулируем пока получение сообщение. Будем делать это в лоб.
+Давайте сэмулируем получение сообщение. Будем делать это в лоб.
 ```js
   handleSendButton = (event) => {
     event.preventDefault();
