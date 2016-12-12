@@ -19,7 +19,7 @@
 ```js
 import * as socketExampleActions from 'redux/modules/socketexamplemodule';
 
-export default function socketExampleMiddleware() {
+export default function createSocketExampleMiddleware () {
   let socketExample = null;
   socketExample = true;
 
