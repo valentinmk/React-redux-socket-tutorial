@@ -278,6 +278,8 @@ export function socketsMessageReceiving(receiveMessage) {
 ```
 Стоп. Почему не 4 обработчика? Подробнее. Нам, на самом деле, нам не нужна обработка socketsMessageReceive, потому что пользователю не нужно вмешиваться в процесс получения сообщения сообщения. Хотя на будущее, если по-фантизировать этим событием мы можем отмечать факт отображения сообщения у пользователя в его интерфейсе, т.е. тот самый признак "прочитано" (но это за пределами этой статьи).
 
+
+#### Прием сообщения
 Переходим к описанию обработки событий от сокета в файле `./src/redux/middleware/socketExampleMiddleware.js`.
 
 В нашем обработчике получаем событие от сокета, извлекаем из него сообщение и передаем в редукс через соответсвующий экшен.
@@ -305,8 +307,10 @@ export function socketsMessageReceiving(receiveMessage) {
         socketExample.onopen = onOpen(action.token);
         break;
 ```
+
+#### Отправка сообщения
  
-В самом мидлваре пишем 
+В самом мидлваре пишем редюсер.
 
 ```js
       case 'SOCKETS_MESSAGE_SEND':
@@ -314,10 +318,6 @@ export function socketsMessageReceiving(receiveMessage) {
         store.dispatch(SocketExampleActions.socketsMessageSending(action.message_send));
         break;
 ```
-
-Добавляем обработчик для нашего сокета
-
-
 
 Окей, становится непонятно. `action.message_send` - это о чем? так случилось, что все что мы кладем в редукс появляется в процессе обработки `store => next => action =>` в этих переменных.
 
