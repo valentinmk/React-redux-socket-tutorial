@@ -242,15 +242,20 @@ static propTypes = {
     store.dispatch(socketExampleActions.socketsDisconnect());
   };
 ```
-
 Ну вроде все - проверяем. Нужно использовать закладку Network или ее аналог в вашем браузере, чтобы увидеть подключения к вебсокетам. 
+
+Для тестирования давайте проверим, что будет если мы на самом деле не смогли подключиться к сокетам. 
+```js
+        socketExample = new WebSocket('ws://echo.websocket.org123/');
+```
+Подробнее. Эта проверка связана с тем, что обработка событий у нас идет в асинхронном режиме. Мы не знаем в каком порядке от сокета нам будут прилетать события - последовательно, в обратном порядке или парами. Наш код должен быть способным корректно обрабатывать любые варианты. Попродуйте самостоятельно переместить `store.dispatch(socketExampleActions.socketsDisconnect());` из метода `onClose` в кейс редюсера и посмотреть что же изменится.
 
 Коммит: [https://github.com/valentinmk/react-redux-universal-hot-example/commit/7569536048df83f7e720b000243ed9798308df20](https://github.com/valentinmk/react-redux-universal-hot-example/commit/7569536048df83f7e720b000243ed9798308df20)
 
 ### Проход второй. Делаем сообщения
 
-Все аналогично 
-Добавляем экшены в `src\redux\modules\socketexamplemodule.js`
+Все аналогично первой части второго прохода.
+Добавляем экшены в `./src/redux/modules/socketexamplemodule.js`
 
 ```js
 export const SOCKETS_MESSAGE_SENDING = 'SOCKETS_MESSAGE_SENDING';
@@ -271,9 +276,9 @@ export function socketsMessageReceiving(receiveMessage) {
   return {type: SOCKETS_MESSAGE_RECEIVING, message_receive: receiveMessage};
 }
 ```
-Нам, на самом деле, не нужна обработка socketsMessageReceive, потому что пользователю не нужно вмешиваться в процесс получения сообщения.
+Стоп. Почему не 4 обработчика? Подробнее. Нам, на самом деле, нам не нужна обработка socketsMessageReceive, потому что пользователю не нужно вмешиваться в процесс получения сообщения сообщения. Хотя на будущее, если по-фантизировать этим событием мы можем отмечать факт отображения сообщения у пользователя в его интерфейсе, т.е. тот самый признак "прочитано" (но это за пределами этой статьи).
 
-Ну и занимаемся магией обработки в файле `src\redux\middleware\SocketExampleMiddleware.js` - все как обычно ничего необычного.
+Переходим к описанию рпо в файле `src\redux\middleware\SocketExampleMiddleware.js` - все как обычно ничего необычного.
 В нашем обработчике получаем сообщение и передаем его в редукс.
 ```js
   const onMessage = (ws, store) => evt => {
