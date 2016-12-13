@@ -174,59 +174,54 @@ export function socketsDisconnect() {
 Теперь нужно дать возможность пользователю запускать данные действия. По идеи нужно лезть в `./src/components/SocketExampleComponents/SocketConnectionLog.jsр`, но на самом деле управляющие функции ему передают через компонент react. Поэтому правим сначала `./src/containers/SocketExample/SocketExamplePage.js`. 
 
 ```js
-  static propTypes = {
+static propTypes = {
     loaded: PropTypes.bool,
     message: PropTypes.string,
     connected: PropTypes.bool,
     history: PropTypes.array,
     socketsConnecting: PropTypes.func,
     socketsDisconnecting: PropTypes.func,
-// Here
+//HERE
     socketsConnect: PropTypes.func,
     socketsDisconnect: PropTypes.func
   }
   render() {
-// Here
-    const {loaded, message, connected, socketsConnect, socketsDisconnect, history} = this.props;
+//HERE
+    const {loaded, message, connected, socketsConnecting, socketsDisconnecting, history, socketsConnect, socketsDisconnect} = this.props;
     return (
       <div className="container">
-        <h1>Socket Example Page</h1>
+        <h1>Socket Exapmle Page</h1>
         <Helmet title="Socket Exapmle Page"/>
-        <p>Sockets not connected</p>
         <SocketConnectionLog
           loaded={loaded}
           message={message}
           connected={connected}
-// And here
+          connectAction={socketsConnecting}
+          disconnectAction={socketsDisconnecting}
+          history={history}
+//HERE
           connectAction={socketsConnect}
           disconnectAction={socketsDisconnect}
-          history={history}/>
-        <SocketMessageLog />
+          />
+        <SocketMessageLog/>
       </div>
     );
   }
 ```
-Можно попробовать, но будьте осторожны, оно действительно работате и хуже того браузер опять ушел в цикл. 
-Возвращаемся к `src\redux\middleware\SocketExampleMiddleware.js` и наводим порядок. 
 
-Убираем (стираем строку), она нам больше не нужна:
-
-```js
-  socketExample = true;
-```
+Возвращаемся к `./src/redux/middleware/SocketExampleMiddleware.js` и наводим порядок. 
 
 Изменяем один кейс
 ```js
       case 'SOCKETS_CONNECT':
 ```
-
 Добавляем кейс на обработку отключения:
 
 ```js
       case 'SOCKETS_DISCONNECT':
         if (socketExample !== null) {
           console.log('SOCKETS_DISCONNECTING');
-          store.dispatch(SocketExampleActions.socketsDisconnecting());
+          store.dispatch(socketExampleActions.socketsDisconnecting());
           socketExample.close();
         }
         socketExample = null;
