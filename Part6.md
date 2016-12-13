@@ -319,11 +319,11 @@ export function socketsMessageReceiving(receiveMessage) {
         break;
 ```
 
-Окей, становится непонятно. `action.message_send` - это о чем? так случилось, что все что мы кладем в редукс появляется в процессе обработки `store => next => action =>` в этих переменных.
+Подробнее. `action.message_send` - это о чем? Все, что мы кладем в редукс появляется в процессе обработки `store => next => action =>` в этих переменных. Соответсвенно, когда мы запускаем экшен, то в этой переменной передается все с  чем мы этот экшен запустили.
 
-Давайте разберемся как в action появится сообщение.
+Давайте реализуем как в экшене появится сообщение.
 
-Правим аналогично подключению файл `src\components\SocketExampleComponents\SocketMessageLog.js`
+Правим файл `./src/components/SocketExampleComponents/SocketMessageLog.js`, чтобы получить возможность запускать экшен от пользователя.
 
 ```js
   static propTypes = {
@@ -331,10 +331,10 @@ export function socketsMessageReceiving(receiveMessage) {
     message: PropTypes.string,
     connected: PropTypes.bool,
     message_history: PropTypes.array,
-    socketsMessageSend: PropTypes.func,
+    socketsMessageSend: PropTypes.func
   }
 ```
-да нем не нужно сообщение о получение, мы будем его запускать из мидлваре
+да нем не нужны экшены получения и отправки, мы будем их запускать из мидлваре
 
 ```js
   handleSendButton = (event) => {
@@ -343,14 +343,15 @@ export function socketsMessageReceiving(receiveMessage) {
     this.refs.message_text.value = '';
   }
 ```
-аналогично мы получим новые сообщения сразу их редукса. Здесь мы вызываем `this.props.socketsMessageSend(this.refs.message_text.value)` тем самым в `action` мы передаем наше сообщение.
 
-тестим - должно все получиться. 
-Коммитимся.
+Подробнее. Мы получим новые сообщения сразу их редукса по факту в переменной `message_history` и react на сразу отрисует их. Для того, чтобы отправить сообщение мы вызываем экщен мидлваре `this.props.socketsMessageSend(this.refs.message_text.value)`, тем самым в `action` мы передаем наше сообщение, которое обрабывается редюсером мидлваре `SOCKETS_MESSAGE_SEND`, который в свою очередь вызывает событие `SOCKETS_MESSAGE_SENDING`, которое обрабатывается и отрисовывается интефейсным редюсером.
+
+Запускаем. Проверяем. 
 
 Финиш!
 Оглянитесь на себя в начале этой статьи - надеюсь, что у вас появилось много интересных и гениальных задумок, не откладывайте - делайте. Я вот эту статью пишу и публикую в первый раз и крайне переживаю и откровенно нервничаю, как ее встретят. А вдруг я это все не зря делал ;)
 
+Коммитимся.
 
 
 
