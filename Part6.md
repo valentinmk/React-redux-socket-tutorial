@@ -354,7 +354,7 @@ export function socketsMessageReceiving(receiveMessage) {
 
 Я вот эту статью пишу и публикую в первый раз и крайне переживаю и откровенно нервничаю, как ее встретят. А вдруг я это все не зря.
 
-Коммит: 
+Коммит: [https://github.com/valentinmk/react-redux-universal-hot-example/commit/40fd0b38f7a4b4acad141997e1ad9e7d978aa3b3](https://github.com/valentinmk/react-redux-universal-hot-example/commit/40fd0b38f7a4b4acad141997e1ad9e7d978aa3b3)
 
 
 
