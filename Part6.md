@@ -60,7 +60,7 @@ import createSocketExampleMiddleware from './middleware/socketExampleMiddleware'
 Мы проверили концепцию и готовы делать нашу боевую модель. Теперь будемподключаться к websockets. 
 
 
-> Здесь и далее даются вырианты написания кода, которые иллюстрируют ход разработки. Эти примеры содержат преднамеренные ошибки, которые показывают основные технические проблемы и моменты с которыми я столкнулся в рамках подготовительных работ.
+> Здесь и далее даются вырианты написания кода, которые иллюстрируют ход разработки. Эти примеры содержат преднамеренные ошибки, которые показывают основные технические проблемы и особенности, с которыми я столкнулся в рамках подготовительных работ.
 
 
 Добавляем в файл `./src/redux/middleware/socketExampleMiddleware.js` функции, которыми будем обрабатывать события подключения и отключения.
@@ -71,7 +71,6 @@ import createSocketExampleMiddleware from './middleware/socketExampleMiddleware'
     console.log('token ' + token);
     console.log('evt ' + evt.data);
   };
-
   const onClose = () => evt => {
     console.log('WS is onClose');
     console.log('evt ' + evt.data);
@@ -83,19 +82,20 @@ import createSocketExampleMiddleware from './middleware/socketExampleMiddleware'
       case 'SOCKETS_CONNECT':
         if (socketExample !== null) {
           console.log('SOCKETS_DISCONNECTING');
-          store.dispatch(SocketExampleActions.socketsDisconnecting());
+          store.dispatch(socketExampleActions.socketsDisconnecting());
           socket.close();
         }
         console.log('SOCKETS_CONNECTING');
         socketExample = new WebSocket('ws://echo.websocket.org/');
-        store.dispatch(SocketExampleActions.socketsConnecting());
+        store.dispatch(socketExampleActions.socketsConnecting());
         socketExample.onclose = onClose();
         socketExample.onopen = onOpen(action.token);
         break;
       default:
         return next(action);
 ```
-Начинем разбираться и понимает, что сейчас ничего не работает. Мы ловим экшен `SOCKETS_CONNECT`, которого у нас пока нет. Но у нас есть другой экшен `SOCKETS_CONNECTING`, отлично будем его использовать  меняем скрипт. 
+
+Подробнее. Начинаем разбираться. Мы ловим событие `SOCKETS_CONNECT`, проверяем подключеныли мы, если нет то запускаем принудительное закрытие подключения, создаем новый вебсокет и добавляем ему методы `onClose()` и `onOpen(action.token)`. Понимает, что сейчас ничего не работает. Мы ловим экшен `SOCKETS_CONNECT`, которого у нас пока нет. Но у нас есть другой экшен `SOCKETS_CONNECTING`, почему бы не использовать его - меняем скрипт. 
 
 ```js
       case 'SOCKETS_CONNECTING':
@@ -115,22 +115,24 @@ import createSocketExampleMiddleware from './middleware/socketExampleMiddleware'
 ```
 
 
-> !!! Внимание после этого скрипт будет находиться в бесконечном цикле - сохраните все или не запускайте на данном этапе страничку.
-
-
+> !!! Внимание после этого скрипт будет находиться в бесконечном цикле - сохраните все или не нажимайте кнопку подключиться на этом этапе.
 
 Проверяем и видим, что все пошло не так. В консоле постоянные `SOCKETS_CONNECTING` и `SOCKETS_DISCONNECTING`. Закрываем вкладку или браузер. 
-Что происходит: мидлваре "слушает" стор на предмет экшенов `store => next => action =>` и включается в обработку если находит свой экшен. Выход простой - экшены для мидлеваре должны быть всегда отдельными от экшенов, которые происходят на стороне клиентов.
+Подробнее. Мидлваре "слушает" стор на предмет экшенов `store => next => action =>` и включается в обработку, когда находит свой экшен `SOCKETS_CONNECTING`. Далее по коду идет вызов экшена `store.dispatch(SocketExampleActions.socketsConnecting());`, который в свою очередь вызывает экшен `SOCKETS_CONNECTING`, который ловит мидлваре и т.д.  
+
+
+Вывод простой - экшены для мидлеваре должны быть всегда отдельными от экшенов, которые происходят на стороне клиентов.
+
 
 Как быть дальше.
 
 Наш вариант (я думаю он не один) будет таким: 
-* Пользователь будет вызывать нажатием кнопки экшены мидлвара
-* Который будет вызывать уже "интерфейсные" экшены. 
+* пользователь будет вызывать нажатием кнопки экшены мидлвара,
+* который будет вызывать уже "интерфейсные" экшены. 
 
 Что на практике будет означать 
 * `SOCKETS_CONNECT` вызывается пользователем
-* при его обработки будет вызываться `SOCKETS_CONNECTING`
+* при его обработки будет вызываться `SOCKETS_CONNECTING`,
 * который будет уже обновлять стор и соответствующим образом представлять действие на стороне клиента.
 
 Давайте исправим все это.
