@@ -56,7 +56,7 @@ Redux - официальная документация расположена �
 * [Часть четвертая. Оживляем историю](https://valentinmk.gitbooks.io/react-redux-socket-tutorial/content/Part4.html)
 * [Часть пятая. Проектируем чат](https://valentinmk.gitbooks.io/react-redux-socket-tutorial/content/Part5.html)
 * [Часть шестая. Мидлваре](https://valentinmk.gitbooks.io/react-redux-socket-tutorial/content/Part6.html)
-* [Часть последняя. Работа над ошибками](https://valentinmk.gitbooks.io/react-redux-socket-tutorial/content/FinalPart.html)
+* [Часть дополнительная. Рефлекс(ируем)](https://valentinmk.gitbooks.io/react-redux-socket-tutorial/content/FinalPart.html)
 
 # Как читать
 
