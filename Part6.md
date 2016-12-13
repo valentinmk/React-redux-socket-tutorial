@@ -76,6 +76,13 @@ import createSocketExampleMiddleware from './middleware/socketExampleMiddleware'
     console.log('evt ' + evt.data);
   };
 ```
+
+убираем лишние объявления (нужно удалить)
+```js
+  socketExample = true;
+  socketExampleActions();
+```
+
 добавляем наши редюсеры и убираем лишнее логирование.
 
 ```js
@@ -164,7 +171,7 @@ export function socketsDisconnect() {
 }
 ```
 
-Теперь нужно дать возможность пользователю запускать данные действия. По идеи нужно лезть в `src\components\SocketExampleComponents\SocketConnectionLog.jsр`, но на самом деле управляющие функции ему передают через компонент react js, так что правим только `src\containers\SocketExample\SocketExamplePage.js`. 
+Теперь нужно дать возможность пользователю запускать данные действия. По идеи нужно лезть в `./src/components/SocketExampleComponents/SocketConnectionLog.jsр`, но на самом деле управляющие функции ему передают через компонент react. Поэтому правим сначала `./src/containers/SocketExample/SocketExamplePage.js`. 
 
 ```js
   static propTypes = {
