@@ -55,7 +55,7 @@ import createSocketExampleMiddleware from './middleware/socketExampleMiddleware'
 Запускаем проверяем. Теперь в консоле полный беспорядок и это означает, что наш концепт работает!
 Коммит: [https://github.com/valentinmk/react-redux-universal-hot-example/commit/7833a405be3445e58e8e672e9db03f8cfbfde022](https://github.com/valentinmk/react-redux-universal-hot-example/commit/7833a405be3445e58e8e672e9db03f8cfbfde022)
 
-### Второй проход
+### Второй проход. Делаем лог историю.
 
 Мы проверили концепцию и готовы делать нашу боевую модель. Теперь будемподключаться к websockets. 
 
@@ -245,9 +245,7 @@ static propTypes = {
 
 Ну вроде все - проверяем. Нужно использовать закладку Network или ее аналог в вашем браузере, чтобы увидеть подключения к вебсокетам. 
 
-Если у вас не работает подключение особенно в случае недоступности или сброса подключения добро пожаловать в раздел "Проблема с отключением от сервера в случае его недоступности или сброса подключения" [Последней части](https://valentinmk.gitbooks.io/react-redux-socket-tutorial/content/FinalPart.html).
-
-Коммитимся.
+Коммит: [https://github.com/valentinmk/react-redux-universal-hot-example/commit/7569536048df83f7e720b000243ed9798308df20](https://github.com/valentinmk/react-redux-universal-hot-example/commit/7569536048df83f7e720b000243ed9798308df20)
 
 ### Проход второй. Делаем сообщения
 
