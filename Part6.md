@@ -228,22 +228,22 @@ static propTypes = {
         break;
 ```
 
-Для правильного отображения событий disconnect передаем в системное событие также функцию экшена и там его вызываем.
+Для того, чтобы иметь возможность запускать пользовательские экшены при событии disconnect передаем в системное событие также сам стор.
 
 ```js
-socketExample.onclose = onClose(store);
+        socketExample.onclose = onClose(store);
 ```
 
-изменяем сам обработчик
+и изменяем сам обработчик
 ```js
   const onClose = (store) => evt => {
-    console.log('WebSocket is onClose');
+    console.log('WS is onClose');
     console.log('evt ' + evt.data);
-    store.dispatch(SocketExampleActions.socketsDisconnect());
+    store.dispatch(socketExampleActions.socketsDisconnect());
   };
 ```
 
-Ну вроде все - проверяем. Проверяем как работает. Видим в закладке нетворк подключения и отключения на вебсокеты. 
+Ну вроде все - проверяем. Нужно использовать закладку Network или ее аналог в вашем браузере, чтобы увидеть подключения к вебсокетам. 
 
 Если у вас не работает подключение особенно в случае недоступности или сброса подключения добро пожаловать в раздел "Проблема с отключением от сервера в случае его недоступности или сброса подключения" [Последней части](https://valentinmk.gitbooks.io/react-redux-socket-tutorial/content/FinalPart.html).
 
