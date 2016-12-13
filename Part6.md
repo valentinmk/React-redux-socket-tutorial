@@ -290,7 +290,7 @@ export function socketsMessageReceiving(receiveMessage) {
   };
 ```
  
-в самом мидлваре пишем 
+В самом мидлваре пишем 
 
 ```js
       case 'SOCKETS_MESSAGE_SEND':
