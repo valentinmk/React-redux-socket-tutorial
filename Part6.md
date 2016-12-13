@@ -289,19 +289,6 @@ export function socketsMessageReceiving(receiveMessage) {
     store.dispatch(SocketExampleActions.socketsMessageReceiving(msg));
   };
 ```
- 
-В самом мидлваре пишем 
-
-```js
-      case 'SOCKETS_MESSAGE_SEND':
-        console.log('action');
-        console.log(action);
-        socketExample.send(action.message_send);
-        store.dispatch(SocketExampleActions.socketsMessageSending(action.message_send));
-        break;
-```
-
-Добавляем обработчик для нашего сокета
 
 ```js
       case 'SOCKETS_CONNECT':
@@ -318,6 +305,19 @@ export function socketsMessageReceiving(receiveMessage) {
         socketExample.onopen = onOpen(action.token);
         break;
 ```
+ 
+В самом мидлваре пишем 
+
+```js
+      case 'SOCKETS_MESSAGE_SEND':
+        socketExample.send(action.message_send);
+        store.dispatch(SocketExampleActions.socketsMessageSending(action.message_send));
+        break;
+```
+
+Добавляем обработчик для нашего сокета
+
+
 
 Окей, становится непонятно. `action.message_send` - это о чем? так случилось, что все что мы кладем в редукс появляется в процессе обработки `store => next => action =>` в этих переменных.
 
@@ -349,7 +349,7 @@ export function socketsMessageReceiving(receiveMessage) {
 Коммитимся.
 
 Финиш!
-Оглянитесь на себя в начале этой статьи - надеюсь, что у вас появилось много интересных и гениальных задумок, не откладывайте - делайте. Я вот эту статью пишу и публикую в первый раз и крайне переживаю и откровенно нервничаю, как ее встретя. А вдруг я это все не зря делал ;)
+Оглянитесь на себя в начале этой статьи - надеюсь, что у вас появилось много интересных и гениальных задумок, не откладывайте - делайте. Я вот эту статью пишу и публикую в первый раз и крайне переживаю и откровенно нервничаю, как ее встретят. А вдруг я это все не зря делал ;)
 
 
 
