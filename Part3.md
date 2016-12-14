@@ -205,7 +205,7 @@ const {loaded, message, connected} = this.props;
 
 В файле `./src/components/SocketExampleComponents/SocketConnectionLog.js` действуем по списку:
 
-1. проверяем полученые props 
+1. проверяем полученные props 
 2. присваиваем их внутри render 
 3. используем в нашем компоненте
 
@@ -259,7 +259,7 @@ import {connect} from 'react-redux';
 import * as socketExampleActions from 'redux/modules/socketexamplemodule';
 ```
 
-добавляем `connect, проверку типов и испольщуем полученные данные`
+добавляем `connect`, проверку типов и используем полученные данные
 
 ```js
 @connect(
