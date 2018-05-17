@@ -1,6 +1,4 @@
-> # Всем привет из 2018! Оригинальный \[react-redux-universal-hot-example\]\(https://github.com/erikras/react-redux-universal-hot-example\) прекратил развитие в 2017 году, но его можно собрать на версии 6.14.2, на 8 и выше версии будут ошибки. Но есть его форк 
->
-> # https://github.com/bertho-zero/react-redux-universal-hot-example, где продолжается разработка и поддерживаются более свежие версии Nodejs.
+> # Всем привет из 2018! Оригинальный [https://github.com/erikras/react-redux-universal-hot-example](https://github.com/erikras/react-redux-universal-hot-example\) прекратил развитие в 2017 году, но его можно собрать на версии 6.14.2, на 8 и выше версии будут ошибки. Но есть его форк [https://github.com/bertho-zero/react-redux-universal-hot-example](https://github.com/bertho-zero/react-redux-universal-hot-example), где продолжается разработка и поддерживаются более свежие версии Nodejs.
 
 # Введение
 
